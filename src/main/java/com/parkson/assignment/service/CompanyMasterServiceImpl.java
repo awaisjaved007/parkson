@@ -19,12 +19,7 @@ import java.util.Date;
 @Service
 public class CompanyMasterServiceImpl implements CompanyMasterService {
 
-  private final CompanyMasterRepository companyMasterRepository;
-
-  @Autowired
-  public CompanyMasterServiceImpl(final CompanyMasterRepository companyMasterRepository) {
-    this.companyMasterRepository = companyMasterRepository;
-  }
+  @Autowired private CompanyMasterRepository companyMasterRepository;
 
   @Override
   @Transactional

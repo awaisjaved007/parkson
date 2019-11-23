@@ -23,15 +23,9 @@ import java.util.Locale;
 @Controller
 public class CompanyMasterController {
 
-  private final CompanyMasterService companyMasterService;
-  private final MessageSource messageSource;
+  @Autowired private CompanyMasterService companyMasterService;
 
-  @Autowired
-  public CompanyMasterController(
-      final CompanyMasterService companyMasterService, final MessageSource messageSource) {
-    this.companyMasterService = companyMasterService;
-    this.messageSource = messageSource;
-  }
+  @Autowired private MessageSource messageSource;
 
   @InitBinder
   public final void initBinderUsuariosFormValidator(
@@ -44,7 +38,8 @@ public class CompanyMasterController {
   public String addCompanyMaster(
       @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
       BindingResult result,
-      Model model,HttpServletRequest request) {
+      Model model,
+      HttpServletRequest request) {
     if (result.hasErrors()) {
       model.addAttribute("error", true);
     }

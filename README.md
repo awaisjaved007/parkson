@@ -1,6 +1,11 @@
 # parkson
 This is the assignment for Parkson
 
+# Instruction to run
+Please modify properties file with postgres DB url if you are try to run this on your own env.
+Other wise if you have install docker then please follow to below commands to run this successfully.
+
+
 ##Goal
 Technical Assignment
 
