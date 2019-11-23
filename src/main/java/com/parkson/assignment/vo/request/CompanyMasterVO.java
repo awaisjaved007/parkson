@@ -2,29 +2,28 @@ package com.parkson.assignment.vo.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.parkson.assignment.utils.LoggerUtils;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.Column;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class CompanyMasterVO {
   @NotBlank(message = "compCode must be provided.")
-  @Size(max = 3, min = 3, message = "compCode length must be 3.")
-  @Digits(integer = 3, fraction = 0, message = "compCode chars must be numeric.")
+  @Size(max = 3, min = 3, message = "Company code length must be 3.")
+  @Digits(integer = 3, fraction = 0, message = "Company code chars must be numeric.")
   private String compCode;
 
-  @NotBlank(message = "compCodeHRIS must be provided.")
-  @Pattern(regexp = "^[A-Z]+$", message = "Invalid pattern provided.")
-  @Size(max = 3, min = 3, message = "compCodeHRIS length must be 3.")
+  @NotBlank(message = "Company Code HRIS must be provided.")
+  @Pattern(regexp = "^[A-Z]+$", message = "Company Code HRIS invalid pattern provided.")
+  @Size(max = 3, min = 3, message = "Company Code HRIS length must be 3.")
   private String compCodeHRIS;
 
-  @Size(max = 70, message = "compName length must be less than 70.")
+  @Size(max = 70, message = "Company Name length must be less than 70.")
   private String compName;
 
   @Size(max = 15, message = "compAbbrName length must be less than 15")
@@ -37,12 +36,11 @@ public class CompanyMasterVO {
   @Pattern(regexp = "([^\\s]+(\\.(?i)(jpeg|png))$)", message = "Image file must be .jpeg|.png")
   private String compLogo;
 
-  @Column(name = "mf11_compActiveDate")
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy hh:mm:ss aa")
+
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private Date compActiveDate;
 
-  @NotBlank(message = "isActive must be provided.")
-  @Column(name = "mf11_isActive", nullable = false)
+  @NotNull(message = "isActive must be provided.")
   private boolean isActive;
 
   private String createdBy;
@@ -64,4 +62,25 @@ public class CompanyMasterVO {
 
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy hh:mm:ss aa")
   private Date deactivatedOn;
+
+  @Override
+  public String toString() {
+    return LoggerUtils.concat( "CompanyMasterVO{" ,
+            "compCode='" + compCode + '\'' ,
+            ", compCodeHRIS='" + compCodeHRIS + '\'' ,
+            ", compName='" + compName + '\'' ,
+            ", compAbbrName='" + compAbbrName + '\'' ,
+            ", compRegNo='" + compRegNo + '\'' ,
+            ", compLogo='" + compLogo + '\'' ,
+            ", compActiveDate=" + compActiveDate ,
+            ", isActive=" + isActive ,
+            ", createdBy='" + createdBy + '\'' ,
+            ", lastModifiedBy='" + lastModifiedBy + '\'' ,
+            ", reactivatedBy='" + reactivatedBy + '\'' ,
+            ", deactivatedBy='" + deactivatedBy + '\'' ,
+            ", createdOn=" + createdOn ,
+            ", lastModifiedOn=" + lastModifiedOn ,
+            ", reactivatedOn=" + reactivatedOn ,
+            ", deactivatedOn=" + deactivatedOn ,"}");
+  }
 }

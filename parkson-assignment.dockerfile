@@ -1,17 +1,14 @@
-FROM openjdk:8u131-jre-alpine
+FROM jboss/wildfly:18.0.0.Final
 
 WORKDIR /app
 
 ARG artifactid
+
 ARG version
 
 ENV artifact ${artifactid}-${version}.war
 
-COPY ./target/${artifact} app.war
-
-RUN chmod +x /app/app.war
-
-CMD ["/usr/bin/java", "-jar", "app.war"]
+COPY ./target/${artifact} /opt/jboss/wildfly/standalone/deployments/ROOT.war
 
 EXPOSE 8080
 

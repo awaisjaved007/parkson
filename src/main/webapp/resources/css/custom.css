@@ -1,0 +1,179 @@
+
+body {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.header {
+    height: 80px;
+    width: 100%;
+    background: brown;
+    padding: 10px;
+    color: #fff;
+}
+
+.header h3 {
+    float: left;
+}
+
+.header .logout-text {
+    float: right;
+    margin-right: 20px;
+}
+
+.logout-text a {
+    color: #fff;
+}
+
+.parent-panel {
+    display: inline-flex;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+}
+
+.left-panel {
+    width: 12%;
+    height: 100%;
+    border-right: 1px solid #000;
+
+}
+
+.left-panel ul {
+    text-align: center;
+    margin: unset;
+    padding-inline-start: unset;
+    padding-inline-end: unset;
+}
+
+.left-panel li {
+    list-style-type: none;
+    padding: 10px 0px;
+    border-bottom: 1px solid #000;
+}
+
+
+.right-panel {
+    width: 88%;
+    height: 100%;
+    padding: 40px;
+}
+
+#details {
+    display: block;
+}
+
+#add-btn {
+    width: 70px;
+    height: 35px;
+    background-color: #6bb3ed;
+    border-radius: 5px;
+    cursor: pointer;
+
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    color: white;
+}
+
+#back-btn {
+    background-color: #6bb3ed;
+    border-radius: 5px;
+    float: right;
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    color: white;
+    cursor: pointer;
+}
+
+#form-container {
+    display: none;
+}
+
+
+/*********************** Form Styles ****************/
+
+/* Style the form - display items horizontally */
+.form-inline {
+    display: inline-block;
+    flex-flow: row wrap;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.other-details {
+    margin-top: 100px;
+}
+
+/* Add some margins for each label */
+
+.form-inline label {
+    margin: -10px 10px 5px 5px;
+}
+
+.form-inline .field{
+    display:inline-grid
+}
+
+/* Style the input fields */
+.form-inline input, .form-inline select {
+    vertical-align: middle;
+    margin: 5px 10px 5px 0;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* Style the submit button */
+.form-inline button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    color: white;
+    margin-left: 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+.form-inline button:hover {
+    background-color: #569ced;
+}
+
+.form-btns {
+    float: right;
+}
+
+.form-inline .save-btn {
+    background-color: #6bb3ed;
+}
+
+
+.form-inline .reset-btn {
+    background-color: #6bb3ed;
+}
+
+/* Add responsiveness - display the form controls vertically instead of horizontally on screens that are less than 800px wide */
+@media (max-width: 800px) {
+    .form-inline input {
+        margin: 10px 0;
+    }
+
+    .form-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+label {
+    display: inline-block;
+    width: 200px;
+}
+
+.error {
+    color: #ff0000;
+    font-style: italic;
+    font-weight: bold;
+}
+/********************** END *************************/

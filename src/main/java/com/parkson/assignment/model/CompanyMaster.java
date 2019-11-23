@@ -1,13 +1,11 @@
 package com.parkson.assignment.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.parkson.assignment.utils.LoggerUtils;
 import lombok.Data;
 
 import javax.persistence.*;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity
@@ -62,7 +60,7 @@ public class CompanyMaster {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy hh:mm:ss aa")
   private Date compActiveDate;
 
-  @NotBlank(message = "isActive must be provided.")
+  @NotNull(message = "isActive must be provided.")
   @Column(name = "mf11_isActive", nullable = false)
   private boolean isActive;
 
@@ -98,4 +96,27 @@ public class CompanyMaster {
   @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy hh:mm:ss aa")
   @Column(name = "mf11_reactivatedOn")
   private Date reactivatedOn;
+
+  @Override
+  public String toString() {
+    return LoggerUtils.concat(
+        "CompanyMaster[",
+        "compCode='" + compCode + '\'',
+        ", compCodeHRIS='" + compCodeHRIS + '\'',
+        ", compName='" + compName + '\'',
+        ", compAbbrName='" + compAbbrName + '\'',
+        ", compRegNo='" + compRegNo + '\'',
+        ", compLogo='" + compLogo + '\'',
+        ", compActiveDate=" + compActiveDate,
+        ", isActive=" + isActive,
+        ", createdBy='" + createdBy + '\'',
+        ", lastModifiedBy='" + lastModifiedBy + '\'',
+        ", reactivatedBy='" + reactivatedBy + '\'',
+        ", deactivatedBy='" + deactivatedBy + '\'',
+        ", createdOn=" + createdOn,
+        ", lastModifiedOn=" + lastModifiedOn,
+        ", reactivatedOn=" + reactivatedOn,
+        ", deactivatedOn=" + deactivatedOn,
+        "]");
+  }
 }

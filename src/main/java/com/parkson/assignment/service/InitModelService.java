@@ -8,7 +8,6 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Component
@@ -43,14 +42,15 @@ public class InitModelService implements ApplicationListener<ApplicationReadyEve
     roleService.addNewRole(manager);
 
     UserVO userVO = new UserVO();
-    userVO.setFirstName("Awais");
-    userVO.setLastName("Javed");
-    userVO.setUserName("javedm");
-    userVO.setPassword("password");
-    List<String> roles = new ArrayList<>();
-    roles.add("ADMIN");
-    userVO.setRoles(roles);
-
-    userService.save(userVO);
+    if (userService.findByUsername("javedm") == null) {
+      userVO.setFirstName("Awais");
+      userVO.setLastName("Javed");
+      userVO.setUserName("javedm");
+      userVO.setPassword("password");
+      List<String> roles = new ArrayList<>();
+      roles.add("ADMIN");
+      userVO.setRoles(roles);
+      userService.save(userVO);
+    }
   }
 }

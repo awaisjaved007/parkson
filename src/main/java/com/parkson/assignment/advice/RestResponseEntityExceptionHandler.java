@@ -59,7 +59,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     logger.error("422 Status Code", ex);
     final GenericResponse bodyOfResponse =
         new GenericResponse(
-            messages.getMessage("company.mater.unprocessable.entity", null, request.getLocale()));
+            messages.getMessage(ex.getMessage(), null, request.getLocale()));
     return handleExceptionInternal(
         ex, bodyOfResponse, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
   }

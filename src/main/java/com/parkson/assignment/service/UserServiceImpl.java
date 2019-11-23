@@ -5,10 +5,12 @@ import com.parkson.assignment.repository.RoleRepository;
 import com.parkson.assignment.repository.UserRepository;
 import com.parkson.assignment.vo.request.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,22 +19,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+@Service("userServiceImpl")
+public class UserServiceImpl implements UserService {
 
-  private final UserRepository userRepository;
-  private final RoleRepository roleRepository;
-  private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-  @Autowired
-  public UserServiceImpl(
-      UserRepository userRepository,
-      RoleRepository roleRepository,
-      BCryptPasswordEncoder bCryptPasswordEncoder) {
-    this.userRepository = userRepository;
-    this.roleRepository = roleRepository;
-    this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-  }
+  @Autowired private UserRepository userRepository;
+  @Autowired private RoleRepository roleRepository;
+  @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+  @Autowired AuthenticationManager authenticationManager;
 
   @Transactional
   @Override
@@ -48,7 +41,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
   @Override
   public User findByUsername(String username) {
-    return null;
+    return this.userRepository.findByUsername(username);
   }
 
   @Override
@@ -77,5 +70,23 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.getUsername(), user.getPassword(), authorities);
 
     return userDetails;
+  }
+
+  @Override
+  public boolean login(String username, String password) {
+
+    UserDetails userDetails = this.loadUserByUsername(username);
+
+    UsernamePasswordAuthenticationToken token =
+        new UsernamePasswordAuthenticationToken(
+            userDetails, password, userDetails.getAuthorities());
+
+    authenticationManager.authenticate(token);
+    boolean authenticated = token.isAuthenticated();
+    if (authenticated) {
+      SecurityContextHolder.getContext().setAuthentication(token);
+    }
+
+    return authenticated;
   }
 }
