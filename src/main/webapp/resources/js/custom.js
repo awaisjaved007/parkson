@@ -1,16 +1,10 @@
-
-function onNewClick (){
+function onNewClick() {
     document.getElementById('details').style.display = "none";
     document.getElementById('form-container').style.display = "block";
+
 }
 
-function onBackClick(){
-    document.getElementById('details').style.display = "block";
-    document.getElementById('form-container').style.display = "none";
-}
-
-function init(){
-
+function onBackClick() {
     document.getElementById('details').style.display = "block";
     document.getElementById('form-container').style.display = "none";
 }

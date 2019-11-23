@@ -1,5 +1,6 @@
 package com.parkson.assignment.controller;
 
+import com.parkson.assignment.exception.UnProcessAbleEntity;
 import com.parkson.assignment.model.CompanyMaster;
 import com.parkson.assignment.service.CompanyMasterService;
 import com.parkson.assignment.utils.GenericResponse;
@@ -13,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -36,16 +39,20 @@ public class CompanyMasterController {
 
   @PostMapping("/company/add")
   public String addCompanyMaster(
-      @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
-      BindingResult result,
-      Model model,
-      HttpServletRequest request) {
+          @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
+          BindingResult result,
+          Model model,
+          HttpServletRequest request, RedirectAttributes redirectAttrs) {
     if (result.hasErrors()) {
       model.addAttribute("error", true);
+      return "dashboard";
+    } else {
+      companyMasterVO.setCreatedBy(request.getUserPrincipal().getName());
+      this.companyMasterService.addCompanyMaster(companyMasterVO);
+      model.addAttribute("companyMasterVO",companyMasterVO);
+      redirectAttrs.addAttribute("id", companyMasterVO.getCompName()).addFlashAttribute("message", "Company created!");
+      return "dashboard";
     }
-    companyMasterVO.setCreatedBy(request.getUserPrincipal().getName());
-    this.companyMasterService.addCompanyMaster(companyMasterVO);
-    return "dashboard";
   }
 
   @PutMapping("/update")

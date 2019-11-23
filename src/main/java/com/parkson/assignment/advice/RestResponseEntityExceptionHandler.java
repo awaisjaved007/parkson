@@ -2,6 +2,7 @@ package com.parkson.assignment.advice;
 
 import com.parkson.assignment.exception.UnProcessAbleEntity;
 import com.parkson.assignment.utils.GenericResponse;
+import com.parkson.assignment.vo.request.CompanyMasterVO;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -13,7 +14,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
+import javax.servlet.http.HttpServletRequest;
 
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -54,24 +58,35 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 
   // 422
   @ExceptionHandler({UnProcessAbleEntity.class})
-  public ResponseEntity<Object> handleUnProcessAbleEntity(
-      final RuntimeException ex, final WebRequest request) {
+  public ModelAndView handleUnProcessAbleEntity(
+      final RuntimeException ex, final HttpServletRequest request) {
     logger.error("422 Status Code", ex);
-    final GenericResponse bodyOfResponse =
-        new GenericResponse(
-            messages.getMessage(ex.getMessage(), null, request.getLocale()));
-    return handleExceptionInternal(
-        ex, bodyOfResponse, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, request);
+    logger.error("Request: " + request.getRequestURL() + " raised " + ex);
+
+    ModelAndView mav = new ModelAndView();
+    mav.addObject("error", true);
+    mav.addObject("exception", messages.getMessage(ex.getMessage(), null, request.getLocale()));
+    mav.addObject("url", request.getRequestURL());
+    mav.addObject("companyMasterVO", new CompanyMasterVO());
+    mav.addObject("message", messages.getMessage(ex.getMessage(), null, request.getLocale()));
+    mav.setViewName("dashboard");
+    return mav;
   }
 
   @ExceptionHandler({Exception.class})
-  public ResponseEntity<Object> handleInternal(
-      final RuntimeException ex, final WebRequest request) {
+  public ModelAndView handleInternal(final RuntimeException ex, final HttpServletRequest request) {
     logger.error("500 Status Code", ex);
-    final GenericResponse bodyOfResponse =
+    /*final GenericResponse bodyOfResponse =
         new GenericResponse(
             messages.getMessage("message.error", null, request.getLocale()), "InternalError");
     return new ResponseEntity<>(
-        bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);
+        bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);*/
+    ModelAndView mav = new ModelAndView();
+    mav.addObject("error", true);
+    mav.addObject("exception", messages.getMessage(ex.getMessage(), null, request.getLocale()));
+    mav.addObject("url", request.getRequestURL());
+    mav.addObject("companyMasterVO", new CompanyMasterVO());
+    mav.setViewName("dashboard");
+    return mav;
   }
 }

@@ -1,3 +1,4 @@
+<%@ page import="com.parkson.assignment.vo.request.CompanyMasterVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -39,14 +40,21 @@
     </div>
     <div class="right-panel">
         <div id="details">
-            <button id="add-btn" onclick="onNewClick();">New</button>
+            <form action="/user/dashboard" method="get" >
+            <button id="add-btn" type="submit" onclick="onNewClick();">New</button>
+            </form>
         </div>
 
         <div id="form-container">
             <button id="back-btn" onclick="onBackClick();">Back</button>
+
             <div id="edit-form">
-                <springForm:form method="POST" modelAttribute="companyMasterVO" action="/company/add"
+                <springForm:form id="company" method="POST" modelAttribute="companyMasterVO" action="/company/add"
                                  class="form-inline">
+                    <c:if test="${exception != ''}">
+                        <p class="error">${exception}</p>
+                    </c:if>
+                    <springForm:errors path="*" cssClass="errorblock" id="dashboardErrors" element="div"/>
                     <div class="form-inline">
                         <label for="compCode">Company Code *</label>
                         <div class="field">
@@ -118,7 +126,7 @@
                     <div class="form-inline">
                         <label for="createdBy">Created By</label>
                         <div class="field">
-                            <springForm:input path="createdBy" disabled="true" type="text"  />
+                            <springForm:input path="createdBy" disabled="true" type="text"/>
                         </div>
 
                         <label for="createdOn">Created On</label>
@@ -163,23 +171,23 @@
 
 
                     <div class="form-btns">
-                            <springForm:button type="reset" class="save-btn" value="Reset"/>
+                        <springForm:button type="reset" class="save-btn" value="Reset"/>
                         <button type="submit" class="save-btn">Submit</button>
                     </div>
 
                 </springForm:form>
-
             </div>
 
         </div>
 
     </div>
 </div>
+
 <script>
-    var error =
-    <c:out value="${error}"/>
+    var error =<c:out value="${error}"/>
     if (error == true) {
-        onNewClick();
+        document.getElementById('details').style.display = "none";
+        document.getElementById('form-container').style.display = "block";
     }
 </script>
 </body>

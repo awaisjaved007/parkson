@@ -37,6 +37,7 @@ public class UserController {
   @RequestMapping(value = "/dashboard", method = RequestMethod.GET)
   public String dashboard(Model model) {
     model.addAttribute("companyMasterVO",new CompanyMasterVO());
+    model.addAttribute("error",true);
     return "dashboard";
   }
 }
