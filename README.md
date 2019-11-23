@@ -5,6 +5,15 @@ This is the assignment for Parkson
 Please modify properties file with postgres DB url if you are try to run this on your own env.
 Other wise if you have install docker then please follow to below commands to run this successfully.
 
+## Default Users
+
+I have written an init service that creates a user with following credientials
+
+username: javedm
+password: password
+
+##Version of wildfly
+I have used image jboss/wildfly:18.0.0.Final for testing purpose
 
 ##Goal
 Technical Assignment
