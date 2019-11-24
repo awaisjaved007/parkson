@@ -9,6 +9,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * The type Role controller.
+ *  VO are validation objects
+ * */
 @RestController
 @RequestMapping("/role")
 public class RoleController {
@@ -16,6 +20,12 @@ public class RoleController {
   @Qualifier("roleServiceImpl")
   private RoleService roleService;
 
+  /**
+   * Add new role generic response.
+   *
+   * @param roleVo the role vo
+   * @return the generic response
+   */
   @PostMapping("/add")
   public GenericResponse addNewRole(@RequestBody RoleVo roleVo) {
     roleService.addNewRole(roleVo);

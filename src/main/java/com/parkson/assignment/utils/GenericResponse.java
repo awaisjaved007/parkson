@@ -17,7 +17,7 @@ public class GenericResponse {
     this.message = message;
   }
 
-  public GenericResponse(final Object data,final String message) {
+  public GenericResponse(final Object data, final String message) {
     this.data = data;
     this.message = message;
   }

@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+/** The type Company master service. */
 @Slf4j
 @Service
 public class CompanyMasterServiceImpl implements CompanyMasterService {

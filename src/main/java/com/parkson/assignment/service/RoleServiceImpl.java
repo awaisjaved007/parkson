@@ -10,14 +10,8 @@ import org.springframework.transaction.annotation.Transactional;
 @Service("roleServiceImpl")
 public class RoleServiceImpl implements RoleService {
 
-  @Autowired
-  private  RoleRepository roleRepository;
+  @Autowired private RoleRepository roleRepository;
 
- /* @Autowired
-  public RoleServiceImpl(final RoleRepository roleRepository) {
-    this.roleRepository = roleRepository;
-  }
-*/
   @Override
   @Transactional
   public void addNewRole(RoleVo roleVo) {

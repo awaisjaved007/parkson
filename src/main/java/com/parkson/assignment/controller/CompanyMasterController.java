@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+/** The type Company master controller. */
 @Controller
 @RequestMapping("/company")
 public class CompanyMasterController {
@@ -28,6 +29,12 @@ public class CompanyMasterController {
 
   @Autowired private MessageSource messageSource;
 
+  /**
+   * Init binder usuarios form validator.
+   *
+   * @param binder the binder
+   * @param locale the locale
+   */
   @InitBinder
   public final void initBinderUsuariosFormValidator(
       final WebDataBinder binder, final Locale locale) {
@@ -35,6 +42,15 @@ public class CompanyMasterController {
     binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
+  /**
+   * Add company master string.
+   *
+   * @param companyMasterVO the company master vo
+   * @param result the result
+   * @param model the model
+   * @param request the request
+   * @return the string
+   */
   @PostMapping("/add")
   public String addCompanyMaster(
       @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
@@ -51,6 +67,13 @@ public class CompanyMasterController {
     return "dashboard";
   }
 
+  /**
+   * Update company master generic response.
+   *
+   * @param companyMasterVO the company master vo
+   * @param request the request
+   * @return the generic response
+   */
   @PutMapping("/update")
   public GenericResponse updateCompanyMaster(
       @Valid @RequestBody final CompanyMasterVO companyMasterVO, final HttpServletRequest request) {
@@ -61,6 +84,14 @@ public class CompanyMasterController {
             "message.company.master.update.success", null, request.getLocale()));
   }
 
+  /**
+   * Fetch all company masters string.
+   *
+   * @param from the from
+   * @param pageSize the page size
+   * @param model the model
+   * @return the string
+   */
   @GetMapping("/fetch/{pageNumber}/{pageSize}")
   public String fetchAllCompanyMasters(
       @PathVariable("pageNumber") int from, @PathVariable("pageSize") int pageSize, Model model) {
@@ -68,6 +99,12 @@ public class CompanyMasterController {
     return "dashboard";
   }
 
+  /**
+   * Refresh form string.
+   *
+   * @param model the model
+   * @return the string
+   */
   @GetMapping("/refresh-form")
   public String refreshForm(Model model) {
     model.addAttribute("companyMasterVO", new CompanyMasterVO());
@@ -75,6 +112,12 @@ public class CompanyMasterController {
     return "dashboard";
   }
 
+  /**
+   * Back refresh string.
+   *
+   * @param model the model
+   * @return the string
+   */
   @GetMapping("/back-refresh")
   public String backRefresh(Model model) {
     prepareModel(model, 0, 5);

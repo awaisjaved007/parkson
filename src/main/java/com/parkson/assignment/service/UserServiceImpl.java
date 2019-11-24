@@ -19,12 +19,17 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+/** The UserService implementation. */
 @Service("userServiceImpl")
 public class UserServiceImpl implements UserService {
 
   @Autowired private UserRepository userRepository;
+
   @Autowired private RoleRepository roleRepository;
+
   @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+  /** The Authentication manager. */
   @Autowired AuthenticationManager authenticationManager;
 
   @Transactional

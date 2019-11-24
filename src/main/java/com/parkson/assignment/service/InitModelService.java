@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
+/** The type Init model service. Purpose: To create default User and Role */
 @Component
 public class InitModelService implements ApplicationListener<ApplicationReadyEvent> {
 
@@ -17,6 +18,12 @@ public class InitModelService implements ApplicationListener<ApplicationReadyEve
 
   private final RoleService roleService;
 
+  /**
+   * Instantiates a new Init model service.
+   *
+   * @param userService the user service
+   * @param roleService the role service
+   */
   @Autowired
   public InitModelService(final UserService userService, final RoleService roleService) {
     this.roleService = roleService;
@@ -28,6 +35,8 @@ public class InitModelService implements ApplicationListener<ApplicationReadyEve
     seedData();
   }
 
+  /*
+  *  adding objects for Role and User*/
   private void seedData() {
 
     RoleVo admin = new RoleVo();

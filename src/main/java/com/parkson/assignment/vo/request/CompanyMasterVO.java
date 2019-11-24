@@ -6,10 +6,10 @@ import com.parkson.assignment.utils.LoggerUtils;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Column;
 import javax.validation.constraints.*;
 import java.util.Date;
 
+/** The type Company master validation object. */
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Data
 public class CompanyMasterVO {
