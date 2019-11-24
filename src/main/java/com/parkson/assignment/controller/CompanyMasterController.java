@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -41,21 +40,15 @@ public class CompanyMasterController {
       @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
       BindingResult result,
       Model model,
-      HttpServletRequest request,
-      RedirectAttributes redirectAttrs) {
+      HttpServletRequest request) {
     if (result.hasErrors()) {
       model.addAttribute("error", true);
-      return "dashboard";
     } else {
       companyMasterVO.setCreatedBy(request.getUserPrincipal().getName());
       this.companyMasterService.addCompanyMaster(companyMasterVO);
-      model.addAttribute("companyMasterVO", companyMasterVO);
-      redirectAttrs
-          .addAttribute("id", companyMasterVO.getCompName())
-          .addFlashAttribute("message", "Company created!");
-      model.addAttribute("data", this.companyMasterService.fetchAllByPageNumber(0, 5));
-      return "dashboard";
+      prepareModel(model, 0, 5);
     }
+    return "dashboard";
   }
 
   @PutMapping("/update")
@@ -68,11 +61,10 @@ public class CompanyMasterController {
             "message.company.master.update.success", null, request.getLocale()));
   }
 
-  @GetMapping("/fetch-all")
+  @GetMapping("/fetch/{pageNumber}/{pageSize}")
   public String fetchAllCompanyMasters(
-      @RequestParam int from, @RequestParam int size, Model model) {
-    Page data = this.companyMasterService.fetchAllByPageNumber(from, size);
-    model.addAttribute("data", data);
+      @PathVariable("pageNumber") int from, @PathVariable("pageSize") int pageSize, Model model) {
+    prepareModel(model, from, pageSize);
     return "dashboard";
   }
 
@@ -85,8 +77,15 @@ public class CompanyMasterController {
 
   @GetMapping("/back-refresh")
   public String backRefresh(Model model) {
+    prepareModel(model, 0, 5);
+    return "dashboard";
+  }
+
+  private Model prepareModel(Model model, int number, int size) {
     model.addAttribute("companyMasterVO", new CompanyMasterVO());
     model.addAttribute("error", false);
-    return "dashboard";
+    Page data = this.companyMasterService.fetchAllByPageNumber(number, size);
+    model.addAttribute("data", data);
+    return model;
   }
 }

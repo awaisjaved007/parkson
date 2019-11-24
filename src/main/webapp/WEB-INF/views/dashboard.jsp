@@ -1,4 +1,3 @@
-<%@ page import="com.parkson.assignment.vo.request.CompanyMasterVO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -40,24 +39,38 @@
     </div>
     <div class="right-panel">
         <div id="details">
-            <form action="/company/refresh-form" method="get" >
-            <button id="add-btn" type="submit" onclick="onNewClick();">New</button>
+            <form action="/company/refresh-form" method="get">
+                <button id="add-btn" type="submit" onclick="onNewClick();">New</button>
             </form>
-            <table border="2" width="70%" cellpadding="2">
-                <tr><th>Company Code</th><th>Code HRIS</th><th>Name</th><th>Created By</th></tr>
+            <table  border="2" width="70%" cellpadding="2">
+                <tr>
+                    <th>Company Code</th>
+                    <th>Code HRIS</th>
+                    <th>Name</th>
+                    <th>Status</th>
+                    <th>Active Date</th>
+                    <th>Created By</th>
+
+                </tr>
                 <c:forEach var="company" items="${data.content}">
                     <tr>
                         <td>${company.compCode}</td>
                         <td>${company.compCodeHRIS}</td>
                         <td>${company.compName}</td>
+                        <td>${company.active}</td>
+                        <td>${company.compActiveDate}</td>
                         <td>${company.createdBy}</td>
                     </tr>
                 </c:forEach>
             </table>
+            <br/>
+            <c:forEach var="i" begin="0" end="${data.totalPages}">
+                <a  href="/company/fetch/${i}/5">${i+1}</a>
+            </c:forEach>
         </div>
 
         <div id="form-container">
-            <form action="/company/back-refresh" method="get" >
+            <form action="/company/back-refresh" method="get">
                 <button id="back-btn" type="submit" onclick="onBackClick();">Back</button>
             </form>
 
@@ -197,7 +210,8 @@
 </div>
 
 <script>
-    var error =<c:out value="${error}"/>
+    var error =
+    <c:out value="${error}"/>
     if (error == true) {
         document.getElementById('details').style.display = "none";
         document.getElementById('form-container').style.display = "block";
