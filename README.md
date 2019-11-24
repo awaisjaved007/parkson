@@ -12,6 +12,9 @@ I have written an init service that creates a user with following credientials
 username: javedm
 password: password
 
+##URL
+Login: http://localhost:8080/login
+
 ##Version of wildfly
 I have used image jboss/wildfly:18.0.0.Final for testing purpose
 
