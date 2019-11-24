@@ -53,7 +53,7 @@ public class CompanyMasterController {
       redirectAttrs
           .addAttribute("id", companyMasterVO.getCompName())
           .addFlashAttribute("message", "Company created!");
-      model.addAttribute("data", this.companyMasterService.fetchAllByPageNumber(1, 5));
+      model.addAttribute("data", this.companyMasterService.fetchAllByPageNumber(0, 5));
       return "dashboard";
     }
   }
@@ -73,6 +73,20 @@ public class CompanyMasterController {
       @RequestParam int from, @RequestParam int size, Model model) {
     Page data = this.companyMasterService.fetchAllByPageNumber(from, size);
     model.addAttribute("data", data);
+    return "dashboard";
+  }
+
+  @GetMapping("/refresh-form")
+  public String refreshForm(Model model) {
+    model.addAttribute("companyMasterVO", new CompanyMasterVO());
+    model.addAttribute("error", true);
+    return "dashboard";
+  }
+
+  @GetMapping("/back-refresh")
+  public String backRefresh(Model model) {
+    model.addAttribute("companyMasterVO", new CompanyMasterVO());
+    model.addAttribute("error", false);
     return "dashboard";
   }
 }

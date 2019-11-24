@@ -40,11 +40,11 @@
     </div>
     <div class="right-panel">
         <div id="details">
-            <form action="/user/dashboard" method="get" >
+            <form action="/company/refresh-form" method="get" >
             <button id="add-btn" type="submit" onclick="onNewClick();">New</button>
             </form>
             <table border="2" width="70%" cellpadding="2">
-                <tr><th>Id</th><th>Name</th><th>Salary</th></tr>
+                <tr><th>Company Code</th><th>Code HRIS</th><th>Name</th><th>Created By</th></tr>
                 <c:forEach var="company" items="${data.content}">
                     <tr>
                         <td>${company.compCode}</td>
@@ -57,7 +57,9 @@
         </div>
 
         <div id="form-container">
-            <button id="back-btn" onclick="onBackClick();">Back</button>
+            <form action="/company/back-refresh" method="get" >
+                <button id="back-btn" type="submit" onclick="onBackClick();">Back</button>
+            </form>
 
             <div id="edit-form">
                 <springForm:form id="company" method="POST" modelAttribute="companyMasterVO" action="/company/add"
