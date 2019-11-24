@@ -1,6 +1,5 @@
 package com.parkson.assignment.controller;
 
-import com.parkson.assignment.exception.UnProcessAbleEntity;
 import com.parkson.assignment.model.CompanyMaster;
 import com.parkson.assignment.service.CompanyMasterService;
 import com.parkson.assignment.utils.GenericResponse;
@@ -14,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,6 +22,7 @@ import java.util.Date;
 import java.util.Locale;
 
 @Controller
+@RequestMapping("/company")
 public class CompanyMasterController {
 
   @Autowired private CompanyMasterService companyMasterService;
@@ -37,20 +36,24 @@ public class CompanyMasterController {
     binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
   }
 
-  @PostMapping("/company/add")
+  @PostMapping("/add")
   public String addCompanyMaster(
-          @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
-          BindingResult result,
-          Model model,
-          HttpServletRequest request, RedirectAttributes redirectAttrs) {
+      @Valid @ModelAttribute("companyMasterVO") CompanyMasterVO companyMasterVO,
+      BindingResult result,
+      Model model,
+      HttpServletRequest request,
+      RedirectAttributes redirectAttrs) {
     if (result.hasErrors()) {
       model.addAttribute("error", true);
       return "dashboard";
     } else {
       companyMasterVO.setCreatedBy(request.getUserPrincipal().getName());
       this.companyMasterService.addCompanyMaster(companyMasterVO);
-      model.addAttribute("companyMasterVO",companyMasterVO);
-      redirectAttrs.addAttribute("id", companyMasterVO.getCompName()).addFlashAttribute("message", "Company created!");
+      model.addAttribute("companyMasterVO", companyMasterVO);
+      redirectAttrs
+          .addAttribute("id", companyMasterVO.getCompName())
+          .addFlashAttribute("message", "Company created!");
+      model.addAttribute("data", this.companyMasterService.fetchAllByPageNumber(1, 5));
       return "dashboard";
     }
   }
@@ -66,13 +69,10 @@ public class CompanyMasterController {
   }
 
   @GetMapping("/fetch-all")
-  public GenericResponse fetchAllCompanyMasters(
-      final HttpServletRequest request, @RequestParam int from, @RequestParam int to) {
-    request.getParameter("to");
-    Page data = this.companyMasterService.fetchAllByPageNumber(from, to);
-    return new GenericResponse(
-        data,
-        messageSource.getMessage(
-            "message.company.master.data.fetch.success", null, request.getLocale()));
+  public String fetchAllCompanyMasters(
+      @RequestParam int from, @RequestParam int size, Model model) {
+    Page data = this.companyMasterService.fetchAllByPageNumber(from, size);
+    model.addAttribute("data", data);
+    return "dashboard";
   }
 }

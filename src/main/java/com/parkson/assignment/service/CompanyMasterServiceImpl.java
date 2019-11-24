@@ -50,7 +50,7 @@ public class CompanyMasterServiceImpl implements CompanyMasterService {
   }
 
   @Override
-  public Page<CompanyMaster> fetchAllByPageNumber(Integer from, Integer to) {
-    return this.companyMasterRepository.findAll(PageRequest.of(from, to));
+  public Page<CompanyMaster> fetchAllByPageNumber(Integer from, Integer size) {
+    return this.companyMasterRepository.findAll(PageRequest.of(from, size));
   }
 }

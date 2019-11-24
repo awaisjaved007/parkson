@@ -43,6 +43,17 @@
             <form action="/user/dashboard" method="get" >
             <button id="add-btn" type="submit" onclick="onNewClick();">New</button>
             </form>
+            <table border="2" width="70%" cellpadding="2">
+                <tr><th>Id</th><th>Name</th><th>Salary</th></tr>
+                <c:forEach var="company" items="${data.content}">
+                    <tr>
+                        <td>${company.compCode}</td>
+                        <td>${company.compCodeHRIS}</td>
+                        <td>${company.compName}</td>
+                        <td>${company.createdBy}</td>
+                    </tr>
+                </c:forEach>
+            </table>
         </div>
 
         <div id="form-container">

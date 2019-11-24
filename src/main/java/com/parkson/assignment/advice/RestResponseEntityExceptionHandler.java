@@ -76,14 +76,9 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
   @ExceptionHandler({Exception.class})
   public ModelAndView handleInternal(final RuntimeException ex, final HttpServletRequest request) {
     logger.error("500 Status Code", ex);
-    /*final GenericResponse bodyOfResponse =
-        new GenericResponse(
-            messages.getMessage("message.error", null, request.getLocale()), "InternalError");
-    return new ResponseEntity<>(
-        bodyOfResponse, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR);*/
     ModelAndView mav = new ModelAndView();
     mav.addObject("error", true);
-    mav.addObject("exception", messages.getMessage(ex.getMessage(), null, request.getLocale()));
+    mav.addObject("exception", ex.getMessage());
     mav.addObject("url", request.getRequestURL());
     mav.addObject("companyMasterVO", new CompanyMasterVO());
     mav.setViewName("dashboard");
