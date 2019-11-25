@@ -37,7 +37,7 @@ public class CompanyMasterVO {
   private String compLogo;
 
 
-  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MMM/yyyy hh:mm:ss aa")
   private Date compActiveDate;
 
   @NotNull(message = "isActive must be provided.")
